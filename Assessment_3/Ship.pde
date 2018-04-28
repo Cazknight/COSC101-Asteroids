@@ -1,11 +1,15 @@
 class Ship
 {
   PVector pos;
-  float thrust = 0.08;
+  float thrust = 0.15;
   float drag = 0.99;
-  PVector velocity = new PVector(0,0);;
+  PVector velocity = new PVector(0,0);
   float rotation = 0.0;
   float angle;
+  PImage shipImage = loadImage("Ship.png");
+  PVector[] shotOrigins = {}; 
+  
+  
   public void InitializeShip()
   {
     pos = new PVector(width * 0.5,height * 0.5);
@@ -14,6 +18,7 @@ class Ship
   
   public void UpdateShip(boolean[] Input)
   {
+   
     // apply a drag, essentially just reducing our velocity by 0.01%;
     velocity.x *= drag;
     velocity.y *= drag;
@@ -55,8 +60,13 @@ class Ship
     
     if(Input[UP]) 
     {
-        velocity.x += cos(rotation) * thrust;
-        velocity.y += sin(rotation) * thrust;
+        velocity.x += sin(rotation) * thrust;
+        velocity.y -= cos(rotation) * thrust;
+    }
+    if(Input[DOWN])
+    {
+        velocity.x -= sin(rotation) * thrust;
+        velocity.y += cos(rotation) * thrust;
     }
 
    
@@ -65,8 +75,8 @@ class Ship
     // rotate the co-ordinates so ship is facing right way.
     rotate(rotation);
     // draw the ship
-    stroke(255);
-    fill(0);
-    triangle(-30, -15, 20, 0, -30, 15);
+    shipImage.resize(55,70);
+    image(shipImage,-shipImage.width/2,-shipImage.height/2);
   }
+
 }
