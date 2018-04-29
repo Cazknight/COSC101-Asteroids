@@ -24,6 +24,12 @@ void draw()
   spawnedAsteroids = AM.UpdateAsteroids();
   
   ship.UpdateShip(keyPress);
+  ship.shotArray();
+
+  if(shoot == true) 
+  {
+  ship.fireWeapons();
+  }
 
 }
  
@@ -35,4 +41,8 @@ void keyPressed()
 void keyReleased() 
 {
    keyPress[keyCode] = false;
+   if(key == ' ')
+    {
+      shoot = true;
+    }
 }
