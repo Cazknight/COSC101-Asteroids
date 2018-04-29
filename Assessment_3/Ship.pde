@@ -7,13 +7,20 @@ class Ship
   float rotation = 0.0;
   float angle;
   PImage shipImage = loadImage("Ship.png");
-  PVector[] shotOrigins = {}; 
+  PVector[] shotsFired = {}; 
+  PVector shot;
+  float[] shot_x = new float[0];
+  float[] shot_y = new float[0];
+  float[] shot_rotation = new float[0];
+
+  
   
   
   public void InitializeShip()
   {
     pos = new PVector(width * 0.5,height * 0.5);
     angle = radians(5.0);
+ 
   }
   
   public void UpdateShip(boolean[] Input)
@@ -26,6 +33,8 @@ class Ship
     // add our velocity to the current position.
     pos.x += velocity.x;
     pos.y += velocity.y;
+
+
     
     // wrap the screen, if we go off one side, re-appear on the other.
     if(pos.x > width + 30)
@@ -78,5 +87,34 @@ class Ship
     shipImage.resize(55,70);
     image(shipImage,-shipImage.width/2,-shipImage.height/2);
   }
+  public void shotArray()
+  {
+    for(int i = 0; i < shot_x.length; i++)
+    {
+      stroke(0,255,0);
+      rect(shot_x[i], shot_y[i], 5, 20);
+    }
+  }
+  
+  public void fireWeapons()
+  {
+    shot_x = append(shot_x, pos.x);
+    shot_y = append(shot_y, pos.y);
+    shot_rotation = append(shot_rotation, rotation);
+    
+    
+    
+    println("x: " + shot_x +" y: " + shot_y + " rotation: " + shot_rotation);
+    
+    shoot = false;
+    
+    
+
+    
+    
+  }
+      
+    
+  
 
 }
