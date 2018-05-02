@@ -1,5 +1,13 @@
+// Ship class,
+// handles the movement of the ship based on user input.
+// has a simply physics simulation to apply drag to the ship
+// 
+
 class Ship
 {
+  //Constants
+  
+  //Variables
   PVector pos;
   float thrust = 0.15;
   float drag = 0.99;
@@ -81,7 +89,7 @@ class Ship
     }
 
    
-    // move the co-ordinates to the ships location
+    // move the whole co-ordinate system to the ships location
     translate(pos.x, pos.y);
     // rotate the co-ordinates so ship is facing right way.
     rotate(rotation);
@@ -97,7 +105,7 @@ class Ship
       stroke(0,255,0);
       rect(shot_x[i], shot_y[i], 5, 20);
       
-      println("x: " + shot_x[i] +" y: " + shot_y[i] + " rotation: " + shot_rotation[i]);
+      //println("x: " + shot_x[i] +" y: " + shot_y[i] + " rotation: " + shot_rotation[i]);
     }
   }
   
@@ -134,7 +142,7 @@ class Ship
     
     
     
-    println("x: " + shot_x +" y: " + shot_y + " rotation: " + shot_rotation);
+    //println("x: " + shot_x +" y: " + shot_y + " rotation: " + shot_rotation);
     
     shoot = false;
     
