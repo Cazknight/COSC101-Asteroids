@@ -19,6 +19,7 @@
 Ship ship;
 Asteroid_Manager AM;
 Level_Manager LM;
+Bullet_Manager BM;
 
 boolean[] keyPress = new boolean[256];
 int space = 32;
@@ -28,6 +29,7 @@ boolean shoot = false;
 boolean started = false;
 boolean newRound = false;
 PImage background;
+ArrayList<Bullet> spawnedBullets;
 
 
 void setup() {
@@ -38,6 +40,7 @@ void setup() {
     //ship = new Ship();
     //AM = new Asteroid_Manager(level);
     LM = new Level_Manager();
+    BM = new Bullet_Manager();
     //call the ship class's initialize function.
     //ship.InitializeShip();
 }
@@ -66,6 +69,7 @@ void draw()
   background(0);
   image(background,0,0);
   AM.UpdateAsteroids();
+  spawnedBullets = BM.UpdateBullets();
   if(AM.asteroids.size() == 0)
   {
     if(!newRound)
@@ -87,11 +91,12 @@ void draw()
   }
   
   ship.UpdateShip(keyPress);
-  ship.shotArray();
+  
 
   if(shoot == true) 
   {
-   ship.fireWeapons();
+   BM.shotFired();
+   shoot = false;
   }
 
 }
