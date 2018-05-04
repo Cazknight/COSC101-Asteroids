@@ -18,6 +18,7 @@ class Asteroid
   float speed;
   int size;
   int maxSize;
+  float radius;
   int i;
   
   //Asteroid Constructor
@@ -54,6 +55,13 @@ class Asteroid
     {
       maxSize = 7;
     }
+    
+    if(size < 3)
+      radius = 28.0; //32
+    else if(size >=3 && size < 6)
+      radius = 20.0; //24
+    else
+      radius = 16.0; // 18
     
   }
 }

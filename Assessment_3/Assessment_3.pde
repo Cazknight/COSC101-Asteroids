@@ -20,11 +20,15 @@ Ship ship;
 Asteroid_Manager AM;
 Level_Manager LM;
 Bullet_Manager BM;
+Collision_Detection CD;
 
 boolean[] keyPress = new boolean[256];
 int space = 32;
 int level = 0;
 int timer;
+int lives = 3;
+int respawn_Timer = 90;
+boolean alive = true;
 boolean shoot = false;
 boolean started = false;
 boolean newRound = false;
@@ -43,6 +47,7 @@ void setup() {
     BM = new Bullet_Manager();
     //call the ship class's initialize function.
     //ship.InitializeShip();
+    CD = new Collision_Detection();
 }
  
 void draw() 
@@ -67,7 +72,8 @@ void draw()
   
   
   background(0);
-  image(background,0,0);
+  imageMode(CENTER);
+  image(background, width/2, height/2);
   AM.UpdateAsteroids();
   spawnedBullets = BM.UpdateBullets();
   if(AM.asteroids.size() == 0)
@@ -90,15 +96,30 @@ void draw()
     }
   }
   
-  ship.UpdateShip(keyPress);
-  
-
-  if(shoot == true) 
+  if(alive == true)
   {
-   BM.shotFired();
-   shoot = false;
+    ship.UpdateShip(keyPress);
+  
+    if(shoot == true) 
+    {
+      BM.shotFired();
+      shoot = false;
+    }
+    CD.Update_Ship_Collision();
   }
-
+  else if(alive == false && lives > 0 && respawn_Timer > 0)
+  {
+    respawn_Timer--;
+  }
+  else if(alive == false && lives > 0 && respawn_Timer == 0)
+  {
+    respawn_Timer = 90;
+    alive = true;
+  }
+  else
+  {
+    println("Game Over man, game over");  
+  }
 }
  
 void keyPressed() 

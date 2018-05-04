@@ -22,6 +22,7 @@ class Ship
   float[] shot_x_dir = new float[0];
   float[] shot_y_dir = new float[0];
   float[] shot_rotation = new float[0];
+  float radius = 28.75;
 
   
   
@@ -95,6 +96,6 @@ class Ship
     rotate(rotation);
     // draw the ship
     shipImage.resize(55,70);
-    image(shipImage,-shipImage.width/2,-shipImage.height/2);
+    image(shipImage, 0, 0);
   }
 }
