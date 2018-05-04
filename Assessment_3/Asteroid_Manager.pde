@@ -11,11 +11,6 @@ class Asteroid_Manager
   int asteroidMultiplier = 3;
   int i;
   
-  //Asteroid Manager Constructor.
-  Asteroid_Manager(int Level)
-  {
-    InitializeAsteroids(Level);
-  }
   
   //initializes an asteroid field base on level.
   void InitializeAsteroids(int Level)
@@ -149,5 +144,10 @@ class Asteroid_Manager
       // add it to the draw list.
       asteroids.add(tempAsteroid);
     }
+  }
+  
+  void DestoryAsteroids()
+  {
+    asteroids.clear();
   }
 }
