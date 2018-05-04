@@ -137,7 +137,10 @@ class Asteroid_Manager
     for(i = 0; i < Quantity; i++)
     {
       //some random characteristics for the new asteroids.
-      PVector tempPos = new PVector(random(ParentAsteroid.pos.x, ParentAsteroid.pos.x + ParentAsteroid.currentImg.width), random(ParentAsteroid.pos.y, ParentAsteroid.pos.y + ParentAsteroid.currentImg.height));
+      PVector tempPos = new PVector(random(ParentAsteroid.pos.x - ParentAsteroid.radius, 
+                                    ParentAsteroid.pos.x + ParentAsteroid.radius), 
+                                    random(ParentAsteroid.pos.y - ParentAsteroid.radius, 
+                                    ParentAsteroid.pos.y + ParentAsteroid.radius));
       PVector tempDir = new PVector(random(-1, 1), random(-1,1));
       // make sure the asteroids are always smaller than the one dieing.
       int tempSize = (int)random(ParentAsteroid.maxSize, ASTEROIDSIZE);
