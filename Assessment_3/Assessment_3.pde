@@ -1,81 +1,83 @@
-/* COSC101 - Assesment 3
-# Authors - Zach Thompson, Peter Chung and Bart Stolarek
-#
-# Description
-# A modern clone of the old Asteroids Game
-#
-# Features
-#
-#
-# Comments
-# currently no projectiles are flying around
-# or are any collisions being detected
-# so to test asteroids blowing up you can press 'q', this will pick
-# a random asteroid and destroy it, BE CAREFUL not to press q once all the asteroids
-# are dead this will cause a null pointer exception and wont be possible 
-#vwith collisions implemented.
-*/
+import processing.sound.*;
+
 
 Ship ship;
 Asteroid_Manager AM;
 Level_Manager LM;
-Bullet_Manager BM;
-Collision_Detection CD;
+Highscores HS;
 
 boolean[] keyPress = new boolean[256];
 int space = 32;
 int level = 0;
 int timer;
-int lives = 3;
-int respawn_Timer = 90;
-boolean alive = true;
 boolean shoot = false;
 boolean started = false;
 boolean newRound = false;
+boolean nameEntered = false;
+boolean gotData = false;
+boolean highscoresConnected = false;
 PImage background;
-ArrayList<Bullet> spawnedBullets;
-
+int score = 12000;
+int lives = 0;
+String playerName = "";
+StringList Names = new StringList();
+IntList Scores = new IntList();
+SoundFile music;
 
 void setup() {
     size(1024, 640);
     frameRate(30);
     background = loadImage("Background.jpg");
-    //instantiate the class's
-    //ship = new Ship();
-    //AM = new Asteroid_Manager(level);
+
+    AM = new Asteroid_Manager();
+    AM.InitializeAsteroids(4);
     LM = new Level_Manager();
-    BM = new Bullet_Manager();
-    //call the ship class's initialize function.
-    //ship.InitializeShip();
-    CD = new Collision_Detection();
+    HS = new Highscores(this);
+    
+    if(HS.HighscoreConnect())
+    {
+      highscoresConnected = true;
+    }
+
+    music = new SoundFile(this, "Preparing for War.mp3");
+    music.loop();
 }
  
 void draw() 
 {
-  float random = random(0,20);
-  if (random > 5.1534 && random < 5.1745)
-  {
-    println(random);
-  }
   if(!started)
   {
-    started = LM.NewGame(started);
+    started = LM.NewGame(AM);
     return;
   }
-  else if( started && level == 0)
+  else if(started && level == 0)
   { 
     level = 1;
     ship = new Ship();
-    AM = new Asteroid_Manager(level);
+    AM.InitializeAsteroids(level);
     ship.InitializeShip();
+  }
+
+  if(lives == 0)
+  { 
+    if(nameEntered && !gotData)
+    {
+      HS.UpdateHighscores(playerName, score);
+      
+      Names.clear();
+      Scores.clear();
+      Names = HS.GetNames();
+      Scores = HS.GetScores();
+      gotData = true;
+    }
+    nameEntered = LM.GameOver(playerName, nameEntered, Names, Scores);
+    return;
   }
   
   
   background(0);
-  imageMode(CENTER);
-  image(background, width/2, height/2);
+  image(background,0,0);
   AM.UpdateAsteroids();
-  spawnedBullets = BM.UpdateBullets();
   if(AM.asteroids.size() == 0)
   {
     if(!newRound)
@@ -96,30 +98,14 @@ void draw()
     }
   }
   
-  if(alive == true)
+  ship.UpdateShip(keyPress);
+  ship.shotArray();
+
+  if(shoot == true) 
   {
-    ship.UpdateShip(keyPress);
-  
-    if(shoot == true) 
-    {
-      BM.shotFired();
-      shoot = false;
-    }
-    CD.Update_Ship_Collision();
+   ship.fireWeapons();
   }
-  else if(alive == false && lives > 0 && respawn_Timer > 0)
-  {
-    respawn_Timer--;
-  }
-  else if(alive == false && lives > 0 && respawn_Timer == 0)
-  {
-    respawn_Timer = 90;
-    alive = true;
-  }
-  else
-  {
-    println("Game Over man, game over");  
-  }
+
 }
  
 void keyPressed() 
@@ -128,6 +114,17 @@ void keyPressed()
   if(key == 'q')
   {
     AM.DestroyAsteroid((int)random(0, AM.asteroids.size()));
+  }
+  if(lives == 0)
+  {
+    if(playerName.length() < 10 && key != ENTER)
+    {
+    playerName += key;
+    }
+    if(key == DELETE | key == BACKSPACE)
+    {
+      playerName = "";
+    }
   }
 }
  

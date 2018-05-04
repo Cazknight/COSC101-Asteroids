@@ -11,12 +11,6 @@ class Asteroid_Manager
   int asteroidMultiplier = 3;
   int i;
   
-  //Asteroid Manager Constructor.
-  Asteroid_Manager(int Level)
-  {
-    InitializeAsteroids(Level);
-  }
-  
   //initializes an asteroid field base on level.
   void InitializeAsteroids(int Level)
   {
@@ -31,15 +25,6 @@ class Asteroid_Manager
     {
       //create some random variables for the asteroids.
       PVector tempPos = new PVector(random(0, width), random(0, height));
-
-      //Clear area around ship when level starts.  Might need to be tweeked if 
-      //too many astroids spawn towards left and bottom of screen, but doesn't seem
-      //be a problem so far.
-      if (tempPos.x > 312 && tempPos.x < 712)
-        tempPos.x += 200;
-      if (tempPos.y > 180 && tempPos.y < 560)
-        tempPos.y += 300;
-      
       PVector tempDir = new PVector(random(-1, 1), random(-1,1));
       //cast to an int, max number is 8.99 so we only get whole numbers
       //from 0 too 8
@@ -137,10 +122,7 @@ class Asteroid_Manager
     for(i = 0; i < Quantity; i++)
     {
       //some random characteristics for the new asteroids.
-      PVector tempPos = new PVector(random(ParentAsteroid.pos.x - ParentAsteroid.radius, 
-                                    ParentAsteroid.pos.x + ParentAsteroid.radius), 
-                                    random(ParentAsteroid.pos.y - ParentAsteroid.radius, 
-                                    ParentAsteroid.pos.y + ParentAsteroid.radius));
+      PVector tempPos = new PVector(random(ParentAsteroid.pos.x, ParentAsteroid.pos.x + ParentAsteroid.currentImg.width), random(ParentAsteroid.pos.y, ParentAsteroid.pos.y + ParentAsteroid.currentImg.height));
       PVector tempDir = new PVector(random(-1, 1), random(-1,1));
       // make sure the asteroids are always smaller than the one dieing.
       int tempSize = (int)random(ParentAsteroid.maxSize, ASTEROIDSIZE);
@@ -149,5 +131,10 @@ class Asteroid_Manager
       // add it to the draw list.
       asteroids.add(tempAsteroid);
     }
+  }
+  
+  void DestoryAsteroids()
+  {
+    asteroids.clear();
   }
 }
