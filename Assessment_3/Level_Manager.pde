@@ -53,6 +53,11 @@ class Level_Manager
         }
       }
     }
+    if(enterKeyActive == true)
+      {
+        buttonClicked = true;
+        AM.DestoryAsteroids();
+      }
 
     return buttonClicked;
   }
@@ -100,6 +105,11 @@ class Level_Manager
           }
         }
       }
+      if(enterKeyActive == true)
+      {
+        return true;
+      }
+      
       return false;
     }
     else
