@@ -104,6 +104,7 @@ void draw()
   
   AM.UpdateAsteroids();
   spawnedBullets = BM.UpdateBullets();
+  CD.Update_Missile_Collision();
   
   if(AM.asteroids.size() == 0)
   {

@@ -5,12 +5,13 @@ class Bullet
   float speed;
   float rot;
   float deg;
+  float radius;
 
 
   
   Bullet(PVector Position,float Degrees)
   {
-    //dir = Direction;
+    radius = 2.5;
     pos = Position;
     speed = 6;
     deg = Degrees;
