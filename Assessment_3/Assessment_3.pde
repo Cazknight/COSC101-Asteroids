@@ -38,6 +38,7 @@ boolean newRound = false;
 boolean nameEntered = false;
 boolean gotData = false;
 boolean highscoresConnected = false;
+boolean enterKeyActive = false;
 PImage background;
 ArrayList<Bullet> spawnedBullets;
 
@@ -101,6 +102,10 @@ void draw()
   
   background(0);
   image(background, width/2, height/2);
+    fill(255);
+  textSize(20);
+  text("Lives left:", 10, 20);
+  text(lives,105,20);
   
   AM.UpdateAsteroids();
   spawnedBullets = BM.UpdateBullets();
@@ -150,6 +155,7 @@ void draw()
   {
     println("Game Over man, game over");  
   }
+
 }
  
 void keyPressed() 
@@ -158,6 +164,10 @@ void keyPressed()
   if(key == 'q')
   {
     AM.DestroyAsteroid((int)random(0, AM.asteroids.size()));
+  }
+  if(key == ENTER)
+  {
+    enterKeyActive = true;
   }
   if(lives == 0)
   {
@@ -169,6 +179,7 @@ void keyPressed()
     {
       playerName = "";
     }
+    
   }
 }
  
@@ -179,5 +190,9 @@ void keyReleased()
    {
       shoot = true;
       
+   }
+   if(key == ENTER)
+   {
+     enterKeyActive = false;
    }
 }
