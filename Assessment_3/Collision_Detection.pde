@@ -28,7 +28,22 @@ class Collision_Detection
   
   void Update_Missile_Collision()
   {
-    //TODO...
+    for (int i = 0; i < AM.asteroids.size(); i++)
+    {
+      Asteroid tempAsteroid = AM.asteroids.get(i);
+      for (int j = 0; j < BM.bullets.size(); j++)
+      {
+        Bullet tempBullet = BM.bullets.get(j);
+        distanceX = tempBullet.pos.x - tempAsteroid.pos.x;
+        distanceY = tempBullet.pos.y - tempAsteroid.pos.y;
+        distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
+        
+        if (distance <= tempBullet.radius + tempAsteroid.radius)
+        {
+          AM.DestroyAsteroid(i);
+        }
+      }
+    }  
   }
   
 }
