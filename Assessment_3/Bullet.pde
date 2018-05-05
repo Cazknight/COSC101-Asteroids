@@ -4,19 +4,19 @@ class Bullet
   PVector dir;
   float speed;
   float rot;
+  PImage bulletImg;
 
 
-  
   Bullet(PVector Position, float Rotation)
   {
-    pos = Position;
-    speed = 6;
-    rot = Rotation;
-
-
-
+    bulletImg = loadImage("Bullet.png");
+    pos = new PVector(Position.x, Position.y);
+    speed = 20;
+    rot = Rotation + radians(-90);
     
-    
+    dir = new PVector(cos(rot) * speed, sin(rot) * speed);
+    dir.x += ship.velocity.x;
+    dir.y += ship.velocity.y;
 
   }
 }

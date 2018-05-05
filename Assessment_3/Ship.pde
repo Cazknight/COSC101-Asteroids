@@ -14,7 +14,7 @@ class Ship
   PVector velocity = new PVector(0,0);
   float rotation = 0.0;
   float angle;
-  PImage shipImage = loadImage("Ship.png");
+  //PImage shipImage = loadImage("Ship.png");
   PVector[] shotsFired = {}; 
   PVector shot;
   float[] shot_x = new float[0];
@@ -23,6 +23,7 @@ class Ship
   float[] shot_y_dir = new float[0];
   float[] shot_rotation = new float[0];
   float radius = 28.75;
+  boolean invunerable = false;
 
   
   
@@ -34,7 +35,7 @@ class Ship
  
   }
   
-  public void UpdateShip(boolean[] Input)
+  public void UpdateShip(boolean[] Input, Animator Anim)
   {
    
     // apply a drag, essentially just reducing our velocity by 0.01%;
@@ -95,7 +96,8 @@ class Ship
     // rotate the co-ordinates so ship is facing right way.
     rotate(rotation);
     // draw the ship
-    shipImage.resize(55,70);
-    image(shipImage, 0, 0);
+    //shipImage.resize(55,70);
+    Anim.DrawShip(invunerable);
+    //image(shipImage, 0, 0);
   }
 }

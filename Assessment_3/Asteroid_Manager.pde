@@ -17,7 +17,7 @@ class Asteroid_Manager
   {
     // random algorithim i came up with to increase the amount
     // of spawned asteroids when a new level starts.
-    int asteroidQuantity = (Level + asteroidMultiplier) * asteroidMultiplier;
+    int asteroidQuantity =  (Level + asteroidMultiplier) * asteroidMultiplier;
     //make sure the array is clear prior to creating a new asteroid field.
     asteroids.clear();
     
