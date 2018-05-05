@@ -15,13 +15,6 @@ class Ship
   float rotation = 0.0;
   float angle;
   PImage shipImage = loadImage("Ship.png");
-  PVector[] shotsFired = {}; 
-  PVector shot;
-  float[] shot_x = new float[0];
-  float[] shot_y = new float[0];
-  float[] shot_x_dir = new float[0];
-  float[] shot_y_dir = new float[0];
-  float[] shot_rotation = new float[0];
   float radius = 28.75;
 
   
