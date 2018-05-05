@@ -6,15 +6,21 @@ class Bullet_Manager
   float tempRot;
   Bullet bullet;
   int shots = 0;
+  float bulletRot;
+  float tempDegrees;
   
   void shotFired()
   {
     
-    tempPos = new PVector(ship.pos.x-1,ship.pos.y);
-    bullet = new Bullet(tempPos, tempRot);
+    tempPos = new PVector(ship.pos.x,ship.pos.y);
+    tempDegrees = (ship.rotation*180)/PI;
+    
+    
+    bullet = new Bullet(tempPos, tempDegrees);
     bullets.add(bullet);
-    println(tempRot);
-    println(radians(55));
+    
+    println(tempDegrees);
+
 
   }
   
@@ -23,12 +29,13 @@ ArrayList UpdateBullets()
     for(int i = 0; i < bullets.size(); i++)
     {
       Bullet tempBullet = bullets.get(i);
-      //need to have a circle around the ship, and use the radius of the circle to 
-      //find the location of where the bullet is to be drawn
-      //using the rotation of the ship as a factor of where on the circles circumference
-      //the bullet will be drawn.
+      float angle = tempBullet.deg;
+      
+      angle = radians(angle);
+      rotate(angle);
       fill(0,255,0);
-      rect(tempBullet.pos.x,tempBullet.pos.y,5,20);
+      rectMode(CENTER);
+      rect(tempBullet.pos.x+1,tempBullet.pos.y-25,5,20);
     }
     return bullets;
   }
