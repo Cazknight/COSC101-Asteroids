@@ -1,0 +1,36 @@
+Video Criteria:
+
+- short video that demonstrates the game
+
+- describe design decision and present all features
+
+- outline which part was made by which person
+
+- provide problems faced and how they were overcome x 3 (Zach, Peter, Bart)
+
+Scene 1:
+- Start capturing screen
+- 'Play' processing program Assessment_3
+- Run through the game ensuring that these features are met:
+	-****list all features as a checklist****
+	-
+	-
+- Have all features been met? If not, start again and do first 3 steps again.
+
+Scene 2: 
+- Zach provides a quick brief on how the graphics were made, what other graphics were suggested
+  (Peter's idea with the Steampunk), and how we decided (majority vote). 
+- Peter provides a quick brief on what features are in the game (power ups, different sized 
+  asteriods which break apart, health, etc).
+- Bart provides a quick brief on the interface of the game (start screen, high score),
+  along with who completed what part (zach - ship movement, asteroid manager, high score system
+  etc). 
+
+Scene 3:
+- Zach provides most noteable problems that held him back (make some up if you don't have any
+  haha)
+- Peter, same for you :)
+- Bart - same for me. 
+
+
+
