@@ -14,7 +14,6 @@ class Ship
   PVector velocity = new PVector(0,0);
   float rotation = 0.0;
   float angle;
-  PImage shipImage = loadImage("Ship.png");
   float radius = 28.75;
   boolean invunerable = false;
   
