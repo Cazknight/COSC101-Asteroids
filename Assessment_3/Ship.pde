@@ -16,7 +16,7 @@ class Ship
   float angle;
   PImage shipImage = loadImage("Ship.png");
   float radius = 28.75;
-
+  boolean invunerable = false;
   
   
   
@@ -88,7 +88,6 @@ class Ship
     // rotate the co-ordinates so ship is facing right way.
     rotate(rotation);
     // draw the ship
-    shipImage.resize(55,70);
-    image(shipImage, 0, 0);
+    Anim.DrawShip(invunerable);
   }
 }

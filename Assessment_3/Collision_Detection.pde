@@ -3,9 +3,19 @@ class Collision_Detection
   float distance;
   float distanceX;
   float distanceY;
+  //SoundFile explosion;
+
+  Collision_Detection(processing.core.PApplet _papplet)
+  {
+    //explosion = new SoundFile(_papplet, "explosion.mp3");
+  }
   
   void Update_Ship_Collision()
   {
+    if(ship.invunerable)
+    {
+      return;
+    }
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
       Asteroid tempAsteroid = AM.asteroids.get(i);
@@ -17,16 +27,17 @@ class Collision_Detection
       {
         alive = false;
         lives--;
+        Anim.ExplodeShip(ship.pos);
+        //explosion.play();
         ship.pos.x = width * 0.5;
         ship.pos.y = height * 0.5;
         ship.velocity.x = 0;
         ship.velocity.y = 0;
-        println(lives);
       }
     }  
   }
   
-  void Update_Missile_Collision()
+  int Update_Missile_Collision(Animator Anim)
   {
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
@@ -40,10 +51,17 @@ class Collision_Detection
         
         if (distance <= tempBullet.radius + tempAsteroid.radius)
         {
+          //explosion.play();
+          BM.DestroyBullet(j);
           AM.DestroyAsteroid(i);
+          Anim.AddExplosionAnimation(tempAsteroid.pos);
+          score = tempAsteroid.size * 10;
+          return score;
         }
       }
     }  
+    
+    return 0;
   }
   
 }
