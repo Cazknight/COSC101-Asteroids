@@ -94,7 +94,7 @@ void draw()
     ship.InitializeShip();
   }
   
-  if(lives == 0)
+  if(lives == 0 && !credits)
   { 
     if(nameEntered && !gotData)
     {
@@ -107,6 +107,12 @@ void draw()
       gotData = true;
     }
     nameEntered = GS.GameOver(playerName, nameEntered, Names, Scores);
+    return;
+  }
+  
+  if(credits)
+  {
+    GS.CreditScreen();
     return;
   }
   
