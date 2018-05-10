@@ -93,6 +93,10 @@ void draw()
     ship = new Ship();
     ship.InitializeShip();
   }
+  else
+  {
+    GS.InGame(lives, score);
+  }
   
   if(lives == 0 && !credits)
   { 
