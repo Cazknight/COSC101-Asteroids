@@ -15,14 +15,15 @@
 # are dead this will cause a null pointer exception and wont be possible 
 #vwith collisions implemented.
 */
-import processing.sound.*;
+//import processing.sound.*;
 
 Ship ship;
 Asteroid_Manager AM;
-Level_Manager LM;
+Game_States GS;
 Bullet_Manager BM;
 Collision_Detection CD;
 Highscores HS;
+Animator Anim;
 
 boolean[] keyPress = new boolean[256];
 int space = 32;
@@ -31,49 +32,58 @@ int timer;
 int lives = 3;
 int score = 12000;
 int respawn_Timer = 90;
+int invul_Timer = 60;
 boolean alive = true;
 boolean shoot = false;
 boolean started = false;
 boolean newRound = false;
 boolean nameEntered = false;
 boolean gotData = false;
+boolean credits = false;
 boolean highscoresConnected = false;
 boolean enterKeyActive = false;
 PImage background;
 ArrayList<Bullet> spawnedBullets;
-
+PFont font;
 String playerName = "";
 StringList Names = new StringList();
 IntList Scores = new IntList();
-SoundFile music;
+//SoundFile music;
+//SoundFile shootSound;
 
 
 void setup() {
     size(1024, 640);
     frameRate(30);
     imageMode(CENTER);
+    font = createFont("BlackHole BB", 70);
+    textFont(font);
     background = loadImage("Background.jpg");
     AM = new Asteroid_Manager();
-    AM.InitializeAsteroids(4);
-    LM = new Level_Manager();
+    AM.InitializeAsteroids(6);
+    GS = new Game_States();
     BM = new Bullet_Manager();
     HS = new Highscores(this);
-    CD = new Collision_Detection();
+    CD = new Collision_Detection(this);
+    Anim = new Animator();
     
     if(HS.HighscoreConnect())
     {
       highscoresConnected = true;
     }
 
-    music = new SoundFile(this, "Preparing for War.mp3");
-    music.loop();
+    //music = new SoundFile(this, "Preparing for War.mp3");
+    //shootSound = new SoundFile(this, "shoot.mp3");
+    //music.loop();
 }
  
 void draw() 
 {
+  background(0);
+  image(background, width/2, height/2);
   if(!started)
   {
-    started = LM.NewGame(AM);
+    started = GS.NewGame(AM);
     return;
   }
   else if( started && level == 0)
@@ -96,20 +106,14 @@ void draw()
       Scores = HS.GetScores();
       gotData = true;
     }
-    nameEntered = LM.GameOver(playerName, nameEntered, Names, Scores);
+    nameEntered = GS.GameOver(playerName, nameEntered, Names, Scores);
     return;
   }
   
-  background(0);
-  image(background, width/2, height/2);
-    fill(255);
-  textSize(20);
-  text("Lives left:", 10, 20);
-  text(lives,105,20);
-  
   AM.UpdateAsteroids();
   spawnedBullets = BM.UpdateBullets();
-  CD.Update_Missile_Collision();
+  score += CD.Update_Missile_Collision(Anim);
+  Anim.UpdateAnimations();
   
   if(AM.asteroids.size() == 0)
   {
@@ -121,12 +125,13 @@ void draw()
     else if(newRound && timer + 5000 > millis())
     {
       int duration = timer + 6000;
-      duration = LM.NewRound(duration); 
+      duration = GS.NewRound(duration);
     }
     else if(newRound && timer + 5000 < millis())
     {
       level += 1;
       AM.InitializeAsteroids(level);
+      ship.invunerable = true;
       newRound = false;
     }
   }
@@ -150,10 +155,17 @@ void draw()
   {
     respawn_Timer = 90;
     alive = true;
+    ship.invunerable = true;
+  }
+
+  if(ship.invunerable && invul_Timer > 0)
+  {
+    invul_Timer--;
   }
   else
   {
-    println("Game Over man, game over");  
+    ship.invunerable = false;
+    invul_Timer = 60;
   }
 
 }
@@ -161,17 +173,10 @@ void draw()
 void keyPressed() 
 {
   keyPress[keyCode] = true;
-  if(key == 'q')
-  {
-    AM.DestroyAsteroid((int)random(0, AM.asteroids.size()));
-  }
-  if(key == ENTER)
-  {
-    enterKeyActive = true;
-  }
   if(lives == 0)
   {
-    if(playerName.length() < 10 && key != ENTER)
+    if(playerName.length() < 10 && key != CODED && key != ENTER 
+        && key != TAB && key != ' ')
     {
     playerName += key;
     }
@@ -179,7 +184,6 @@ void keyPressed()
     {
       playerName = "";
     }
-    
   }
 }
  
@@ -189,6 +193,10 @@ void keyReleased()
    if(key == ' ')
    {
       shoot = true;
+      if(!newRound)
+      {
+        //shootSound.play();
+      }
       
    }
    if(key == ENTER)
