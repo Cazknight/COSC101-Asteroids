@@ -132,6 +132,7 @@ class Asteroid_Manager
     for(i = 0; i < Quantity; i++)
     {
       //some random characteristics for the new asteroids.
+      //Spawn children within the area the parent asteroid occupied. 
       PVector tempPos = new PVector(random(ParentAsteroid.pos.x - ParentAsteroid.radius, 
                                     ParentAsteroid.pos.x + ParentAsteroid.radius), 
                                     random(ParentAsteroid.pos.y - ParentAsteroid.radius, 

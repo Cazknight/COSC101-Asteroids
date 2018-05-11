@@ -1,21 +1,14 @@
 class Collision_Detection
 {
+  //Variables to determine distance between in game objects.
   float distance;
   float distanceX;
   float distanceY;
-  //SoundFile explosion;
-
-  Collision_Detection(processing.core.PApplet _papplet)
-  {
-    //explosion = new SoundFile(_papplet, "explosion.mp3");
-  }
   
   void Update_Ship_Collision()
   {
-    if(ship.invunerable)
-    {
-      return;
-    }
+    //Compare position of all spawned asteroids to position of ship based on the distance between them.
+    //Circular hit boxes are used to appoximate the shape of the ship and asteroids.
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
       Asteroid tempAsteroid = AM.asteroids.get(i);
@@ -23,21 +16,19 @@ class Collision_Detection
       distanceY = ship.pos.y - tempAsteroid.pos.y;
       distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
       
+      //If distance between ship and asteroid is less than the sum of their respective radius,
+      //collision is detected and ship reset, deduct a life and set alive status to false for respawn.
       if (distance <= ship.radius + tempAsteroid.radius)
       {
+        BM.fireMode = 1;
         alive = false;
         lives--;
-        Anim.ExplodeShip(ship.pos);
-        //explosion.play();
-        ship.pos.x = width * 0.5;
-        ship.pos.y = height * 0.5;
-        ship.velocity.x = 0;
-        ship.velocity.y = 0;
+        ship.Reset_Ship();
       }
     }  
   }
   
-  int Update_Missile_Collision(Animator Anim)
+  void Update_Missile_Collision()
   {
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
@@ -51,17 +42,30 @@ class Collision_Detection
         
         if (distance <= tempBullet.radius + tempAsteroid.radius)
         {
-          //explosion.play();
-          BM.DestroyBullet(j);
           AM.DestroyAsteroid(i);
-          Anim.AddExplosionAnimation(tempAsteroid.pos);
-          score = tempAsteroid.size * 10;
-          return score;
+          BM.bullets.remove(j);
         }
       }
     }  
-    
-    return 0;
+  }
+  
+  void Update_Power_Up_Collision()
+  {
+    if(PU.spawned == true && alive == true)
+    {
+      distanceX = ship.pos.x - PU.pos.x;
+      distanceY = ship.pos.y - PU.pos.y;
+      distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
+      
+      if (distance <= ship.radius + PU.radius)
+      {
+        if (PU.state == 2)
+          BM.fireMode = 2;
+        else if (PU.state == 3)
+          BM.fireMode = 3;
+        PU.Spawn_Power_Up();
+      }
+    }
   }
   
 }
