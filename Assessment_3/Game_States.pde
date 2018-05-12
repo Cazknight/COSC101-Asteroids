@@ -130,7 +130,7 @@ class Game_States
     fill(255);
     stroke(255);
     textSize(30);
-    text(score, 900, 20);
+    text(score, 900, 25);
   }
   
   void CreditScreen()

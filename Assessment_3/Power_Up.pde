@@ -9,7 +9,7 @@ class Power_Up
   
   void Spawn_Power_Up()
   { 
-    pos.x = 1445;
+    pos.x = 1455;
     pos.y = random(200, 460);
     state = 2;
     spawned = false;    
@@ -23,7 +23,6 @@ class Power_Up
       pos.y = 30*sin(pos.x/55)*5*cos(pos.x/78)*2*sin(pos.x/129) + height/2;
       if(pos.x < -40)
       {
-        spawned = false;
         PU.Spawn_Power_Up();
       }
       if (pos.x % 150 == 0)

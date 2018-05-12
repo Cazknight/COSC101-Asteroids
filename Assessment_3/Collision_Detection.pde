@@ -1,14 +1,21 @@
 class Collision_Detection
 {
-  //Variables to determine distance between in game objects.
   float distance;
   float distanceX;
   float distanceY;
+  //SoundFile explosion;
+
+  Collision_Detection(processing.core.PApplet _papplet)
+  {
+    //explosion = new SoundFile(_papplet, "explosion.mp3");
+  }
   
   void Update_Ship_Collision()
   {
-    //Compare position of all spawned asteroids to position of ship based on the distance between them.
-    //Circular hit boxes are used to appoximate the shape of the ship and asteroids.
+    if(ship.invunerable)
+    {
+      return;
+    }
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
       Asteroid tempAsteroid = AM.asteroids.get(i);
@@ -16,19 +23,22 @@ class Collision_Detection
       distanceY = ship.pos.y - tempAsteroid.pos.y;
       distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
       
-      //If distance between ship and asteroid is less than the sum of their respective radius,
-      //collision is detected and ship reset, deduct a life and set alive status to false for respawn.
       if (distance <= ship.radius + tempAsteroid.radius)
       {
         BM.fireMode = 1;
         alive = false;
         lives--;
-        ship.Reset_Ship();
+        Anim.ExplodeShip(ship.pos);
+        //explosion.play();
+        ship.pos.x = width * 0.5;
+        ship.pos.y = height * 0.5;
+        ship.velocity.x = 0;
+        ship.velocity.y = 0;
       }
     }  
   }
   
-  void Update_Missile_Collision()
+  int Update_Missile_Collision(Animator Anim)
   {
     for (int i = 0; i < AM.asteroids.size(); i++)
     {
@@ -42,12 +52,19 @@ class Collision_Detection
         
         if (distance <= tempBullet.radius + tempAsteroid.radius)
         {
+          //explosion.play();
+          BM.DestroyBullet(j);
           AM.DestroyAsteroid(i);
-          BM.bullets.remove(j);
+          Anim.AddExplosionAnimation(tempAsteroid.pos);
+          score = tempAsteroid.size * 10;
+          return score;
         }
       }
     }  
+    
+    return 0;
   }
+  
   
   void Update_Power_Up_Collision()
   {

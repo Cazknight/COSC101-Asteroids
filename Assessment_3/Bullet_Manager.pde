@@ -9,6 +9,7 @@ class Bullet_Manager
   float tempRot;
   float bulletSpeed = 10;
   int fireMode = 1;
+
   
   void shotFired(int angle)
   {
@@ -23,17 +24,16 @@ class Bullet_Manager
     bullet.rot = ship.rotation;
     bullets.add(bullet);
 
-
   }
   
-ArrayList UpdateBullets()
+  ArrayList UpdateBullets()
   {
     for(int i = 0; i < bullets.size(); i++)
     {
       Bullet tempBullet = bullets.get(i);
       if(tempBullet.bulletType == 1 || tempBullet.bulletType == 3)
       {
-        image(S_Shot, tempBullet.pos.x, tempBullet.pos.y);      
+        image(tempBullet.bulletImg, tempBullet.pos.x, tempBullet.pos.y);      
         tempBullet.pos.x += cos(radians(tempBullet.deg))*bulletSpeed;
         tempBullet.pos.y += sin(radians(tempBullet.deg))*bulletSpeed;
       }
@@ -45,20 +45,28 @@ ArrayList UpdateBullets()
         pushMatrix();
         translate(tempBullet.pos.x, tempBullet.pos.y);
         rotate(tempBullet.rot);      
-        image(P_Wave, 0, 0, tempBullet.bWidth, tempBullet.bHeight);
+        image(tempBullet.bulletImg, 0, 0, tempBullet.bWidth, tempBullet.bHeight);
         popMatrix();
         tempBullet.bWidth += .5;
         tempBullet.bHeight += .5;
-      }
-      
-      // Remove bullets when they travel out of play area.
-      if(tempBullet.pos.x < - 40 || tempBullet.pos.x > (width  + 40) ||
-         tempBullet.pos.y < - 40 || tempBullet.pos.y > (height  + 40))
+      }   
+
+      if(tempBullet.pos.x > width + 50 | tempBullet.pos.x < -50)
       {
-        BM.bullets.remove(i);   
+        DestroyBullet(i);
       }
-  }
+      if(tempBullet.pos.y > height + 50 | tempBullet.pos.y < -50)
+      {
+        DestroyBullet(i);
+      }
+    }
     return bullets;
+  }
+  
+  void DestroyBullet(int bulletIndex)
+  {
+    if(bullets.size() != 0)
+      bullets.remove(bulletIndex);
   }
   
 }

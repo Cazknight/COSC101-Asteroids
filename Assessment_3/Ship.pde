@@ -14,9 +14,8 @@ class Ship
   PVector velocity = new PVector(0,0);
   float rotation = 0.0;
   float angle;
-  PImage shipImage = loadImage("Ship.png");
   float radius = 28.75;
-
+  boolean invunerable = false;
   
   
   
@@ -89,17 +88,7 @@ class Ship
     // rotate the co-ordinates so ship is facing right way.
     rotate(rotation);
     // draw the ship
-    shipImage.resize(55,70);
-    image(shipImage, 0, 0);
+    Anim.DrawShip(invunerable);
     popMatrix();
-  }
-  
-  //Function that resets ships position to center of screen.    
-  public void Reset_Ship()
-  {
-    pos.x = width * 0.5;
-    pos.y = height * 0.5;
-    velocity.x = 0;
-    velocity.y = 0;
   }
 }
