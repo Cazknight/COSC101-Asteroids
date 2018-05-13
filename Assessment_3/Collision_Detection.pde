@@ -3,11 +3,11 @@ class Collision_Detection
   float distance;
   float distanceX;
   float distanceY;
-  //SoundFile explosion;
+  SoundFile explosion;
 
   Collision_Detection(processing.core.PApplet _papplet)
   {
-    //explosion = new SoundFile(_papplet, "explosion.mp3");
+    explosion = new SoundFile(_papplet, "explosion.mp3");
   }
   
   void Update_Ship_Collision()
@@ -29,7 +29,7 @@ class Collision_Detection
         alive = false;
         lives--;
         Anim.ExplodeShip(ship.pos);
-        //explosion.play();
+        explosion.play();
         ship.pos.x = width * 0.5;
         ship.pos.y = height * 0.5;
         ship.velocity.x = 0;
@@ -52,7 +52,7 @@ class Collision_Detection
         
         if (distance <= tempBullet.radius + tempAsteroid.radius)
         {
-          //explosion.play();
+          explosion.play();
           BM.DestroyBullet(j);
           AM.DestroyAsteroid(i);
           Anim.AddExplosionAnimation(tempAsteroid.pos);

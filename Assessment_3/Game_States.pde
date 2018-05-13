@@ -99,13 +99,21 @@ class Game_States
       background(0);
       image(highscoreTitle, width  / 2, 50); 
       image(nameScore, width  / 2, 120); 
-      
-      for(i = 0; i < Names.size(); i++)
+      if(highscoresConnected)
       {
-        text(Names.get(i).toUpperCase(), 175, 200 + offset);
-        text(Scores.get(i), 750, 200 + offset);
-        offset += 35;
+        for(i = 0; i < Names.size(); i++)
+        {
+          text(Names.get(i).toUpperCase(), 175, 200 + offset);
+          text(Scores.get(i), 750, 200 + offset);
+          offset += 35;
+        }
       }
+      else
+      {
+        text("There was an issue getting the Highscores", 200, height/2);
+        text("Please try again later", 350, height/2 + 50);
+      }
+      
       if(OnHoverButton(300, 580, 200, 50, creditsButton))
       {
         credits = true;

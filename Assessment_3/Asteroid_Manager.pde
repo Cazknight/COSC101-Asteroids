@@ -36,8 +36,15 @@ class Asteroid_Manager
         tempPos.y += 300;
       
       PVector tempDir = new PVector(random(-1, 1), random(-1,1));
-      //cast to an int, max number is 8.99 so we only get whole numbers
-      //from 0 too 8
+      if(tempDir.x < 0.3 && tempDir.x > -0.3)
+      {
+        tempDir.x = random(0.4, 1);
+      }
+      
+      if(tempDir.y < 0.3 && tempDir.y > -0.3)
+      {
+        tempDir.y = random(-0.4, -1);
+      }
       int tempSize = (int)random(0, ASTEROIDSIZE);
       //create the new asteroid and store it in a tempAsteroid variable.
       Asteroid tempAsteroid = new Asteroid(tempPos, tempDir, tempSize);
@@ -78,16 +85,10 @@ class Asteroid_Manager
     if(tempAsteroid.maxSize <= SMALLESTASTEROIDINDEX)
     { 
       //decide how many to spawn
-      //TODO: possible make the 1 and 5 into a variable.
-      // i didnt initially because they are only used here.
-      // but might make sense for tuning to have a easily understood name
-      // to describe what they are doing.
       int childrenToSpawn = (int)random(1,5);
       //spawn some asteroids.
       SpawnAsteroids(childrenToSpawn, tempAsteroid);
       // remove it from the list so we dont draw it again
-      // TODO: if i get the animatons going, here would be a good spot to trigger
-      // an explosion.
       asteroids.remove(AsteroidIndex);
     }
     else
@@ -137,6 +138,15 @@ class Asteroid_Manager
                                     random(ParentAsteroid.pos.y - ParentAsteroid.radius, 
                                     ParentAsteroid.pos.y + ParentAsteroid.radius));
       PVector tempDir = new PVector(random(-1, 1), random(-1,1));
+      if(tempDir.x < 0.3 && tempDir.x > -0.3)
+      {
+        tempDir.x = random(0.4, 1);
+      }
+      
+      if(tempDir.y < 0.3 && tempDir.y > -0.3)
+      {
+        tempDir.y = random(-0.4, -1);
+      }
       // make sure the asteroids are always smaller than the one dieing.
       int tempSize = (int)random(ParentAsteroid.maxSize, ASTEROIDSIZE);
       //make the new asteroid.

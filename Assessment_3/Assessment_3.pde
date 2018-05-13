@@ -57,8 +57,8 @@ void setup() {
     size(1024, 640);
     frameRate(30);
     imageMode(CENTER);
-    font = createFont("BlackHole BB", 70);
-    textFont(font);
+    font = loadFont("BlackHoleBB-70.vlw");
+    textFont(font, 70);
     background = loadImage("Background.jpg");
     AM = new Asteroid_Manager();
     AM.InitializeAsteroids(6);
@@ -105,12 +105,16 @@ void draw()
   { 
     if(nameEntered && !gotData)
     {
-      HS.UpdateHighscores(playerName, score);
+      
       
       Names.clear();
       Scores.clear();
-      Names = HS.GetNames();
-      Scores = HS.GetScores();
+      if(highscoresConnected)
+      {
+        Names = HS.GetNames();
+        Scores = HS.GetScores();
+        HS.UpdateHighscores(playerName, score);
+      }
       gotData = true;
     }
     nameEntered = GS.GameOver(playerName, nameEntered, Names, Scores);
@@ -218,9 +222,9 @@ void keyReleased()
    keyPress[keyCode] = false;
    if(key == ' ' && alive == true)
    {
-      shoot = true;
       if(!newRound)
       {
+        shoot = true;
         shootSound.play();
       }
       
