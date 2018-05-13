@@ -1,0 +1,15 @@
+Peter - Contributions
+
+Major
+- Ship to Asteroid collision
+- Power-Up
+- Alternate Projectile/Firing Modes.
+
+Minor
+- Ship lives.
+- Ship dead or alive state.
+- Respawn Timer.
+- Clear zone around center of screen.
+
+ 
+
