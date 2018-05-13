@@ -111,9 +111,9 @@ void draw()
       Scores.clear();
       if(highscoresConnected)
       {
+        HS.UpdateHighscores(playerName, score);
         Names = HS.GetNames();
         Scores = HS.GetScores();
-        HS.UpdateHighscores(playerName, score);
       }
       gotData = true;
     }
